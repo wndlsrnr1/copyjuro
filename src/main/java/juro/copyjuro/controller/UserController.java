@@ -34,9 +34,8 @@ public class UserController {
 
 	@LoginUser
 	@GetMapping("/v1/users/{id}")
-	public ApiResponse<UserResponse> getUser(@PathVariable Long id) {
+	public ApiResponse<UserResponse> getUser(@PathVariable(value = "id") Long id) {
 		UserDto user = userService.getUser(id);
-
 		UserResponse userResponse = UserResponse.of(user);
 		return ApiResponse.success(userResponse);
 	}
