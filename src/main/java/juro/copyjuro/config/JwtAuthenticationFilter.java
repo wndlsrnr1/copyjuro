@@ -39,6 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+
         String token = header.substring(7);
 
         if (!jwtUtil.validateToken(token)) {
@@ -47,6 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String username = jwtUtil.getUsernameFromToken(token);
         ServiceUser serviceUser = userDetailService.loadUserByUsername(username);
+
         if (serviceUser != null) {
             UserAuthenticationToken authenticationToken = UserAuthenticationToken.builder()
                     .serviceUser(serviceUser)
