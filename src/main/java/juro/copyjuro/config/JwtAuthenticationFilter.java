@@ -1,14 +1,20 @@
 package juro.copyjuro.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import juro.copyjuro.config.model.ServiceUser;
 import juro.copyjuro.config.model.UserAuthenticationToken;
+import juro.copyjuro.dto.common.ApiResponse;
+import juro.copyjuro.exception.ErrorCode;
 import juro.copyjuro.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final UserDetailServiceImpl userDetailService;
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(
@@ -33,36 +40,52 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws IOException, ServletException {
-
         String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer ")) {
+        try {
+            if (header == null || !header.startsWith("Bearer ")) {
+                ServiceUser serviceUser = ServiceUser.guest();
+
+                UserAuthenticationToken token = UserAuthenticationToken.builder()
+                        .serviceUser(serviceUser)
+                        .authorities(serviceUser.getAuthorities())
+                        .details(extractHeaders(request))
+                        .build();
+
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
+                context.setAuthentication(token);
+                SecurityContextHolder.setContext(context);
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            String token = header.substring(7);
+
+            if (!jwtUtil.validateToken(token)) {
+                throw new BadCredentialsException("Token is is invalid.");
+            }
+
+            String username = jwtUtil.getUsernameFromToken(token);
+            ServiceUser serviceUser = userDetailService.loadUserByUsername(username);
+
+            if (serviceUser != null) {
+                UserAuthenticationToken authenticationToken = UserAuthenticationToken.builder()
+                        .serviceUser(serviceUser)
+                        .credentials(token)
+                        .authorities(serviceUser.getAuthorities())
+                        .details(extractHeaders(request))
+                        .build();
+
+                SecurityContext context = SecurityContextHolder.createEmptyContext();
+                context.setAuthentication(authenticationToken);
+                SecurityContextHolder.setContext(context);
+            }
+
             filterChain.doFilter(request, response);
-            return;
+        } catch (AuthenticationException authenticationException) {
+            writeErrorResponse(response, ErrorCode.FORBIDDEN);
+        } catch (Exception e) {
+            writeErrorResponse(response, ErrorCode.INTERNAL_SERVER_ERROR);
         }
-
-        String token = header.substring(7);
-
-        if (!jwtUtil.validateToken(token)) {
-            throw new BadCredentialsException("Token is is invalid.");
-        }
-
-        String username = jwtUtil.getUsernameFromToken(token);
-        ServiceUser serviceUser = userDetailService.loadUserByUsername(username);
-
-        if (serviceUser != null) {
-            UserAuthenticationToken authenticationToken = UserAuthenticationToken.builder()
-                    .serviceUser(serviceUser)
-                    .credentials(token)
-                    .authorities(serviceUser.getAuthorities())
-                    .details(extractHeaders(request))
-                    .build();
-
-            SecurityContext context = SecurityContextHolder.createEmptyContext();
-            context.setAuthentication(authenticationToken);
-            SecurityContextHolder.setContext(context);
-        }
-
-        filterChain.doFilter(request, response);
     }
 
     private Map<String, String> extractHeaders(HttpServletRequest request) {
@@ -76,5 +99,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         return headers;
+    }
+
+    private void writeErrorResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
+        response.setStatus(errorCode.getHttpStatus().value());
+        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        String responseBody = objectMapper.writeValueAsString(ApiResponse.fail(errorCode));
+        response.getWriter().write(responseBody);
     }
 }

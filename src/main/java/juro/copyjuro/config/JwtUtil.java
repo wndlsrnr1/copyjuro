@@ -11,6 +11,9 @@ import javax.crypto.SecretKey;
 import java.util.Base64;
 import java.util.Date;
 
+/**
+ * generate key, generate token, validate token, get information from token
+ */
 @Slf4j
 @Component
 public class JwtUtil {
