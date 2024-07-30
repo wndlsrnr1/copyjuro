@@ -1,7 +1,7 @@
 package juro.copyjuro.config.model;
 
 import juro.copyjuro.dto.user.UserRole;
-import juro.copyjuro.repository.model.User;
+import juro.copyjuro.repository.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

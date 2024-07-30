@@ -1,7 +1,7 @@
-package juro.copyjuro.repository;
+package juro.copyjuro.repository.user;
 
 
-import juro.copyjuro.repository.model.User;
+import juro.copyjuro.repository.user.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

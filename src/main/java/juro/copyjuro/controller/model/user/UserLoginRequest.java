@@ -1,4 +1,4 @@
-package juro.copyjuro.controller.model;
+package juro.copyjuro.controller.model.user;
 
 import juro.copyjuro.dto.user.LoginRequestDto;
 import lombok.Data;

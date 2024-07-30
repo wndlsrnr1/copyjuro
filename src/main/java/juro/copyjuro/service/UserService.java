@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
 import juro.copyjuro.config.JwtUtil;
 import juro.copyjuro.dto.user.LoginRequestDto;
 import juro.copyjuro.dto.user.UserRole;
-import juro.copyjuro.repository.UserRepository;
-import juro.copyjuro.repository.model.User;
+import juro.copyjuro.repository.user.UserRepository;
+import juro.copyjuro.repository.user.model.User;
 import org.springframework.stereotype.Service;
 
 import juro.copyjuro.dto.user.UserRegisterRequestDto;

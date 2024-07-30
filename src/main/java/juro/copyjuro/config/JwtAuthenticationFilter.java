@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import juro.copyjuro.config.model.ServiceUser;
 import juro.copyjuro.config.model.UserAuthenticationToken;
-import juro.copyjuro.dto.common.ApiResponse;
+import juro.copyjuro.controller.model.common.ApiResponse;
 import juro.copyjuro.exception.ErrorCode;
 import juro.copyjuro.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
