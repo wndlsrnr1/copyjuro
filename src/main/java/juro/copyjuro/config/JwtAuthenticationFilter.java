@@ -9,6 +9,7 @@ import juro.copyjuro.config.model.ServiceUser;
 import juro.copyjuro.config.model.UserAuthenticationToken;
 import juro.copyjuro.controller.model.common.ApiResponse;
 import juro.copyjuro.exception.ErrorCode;
+import juro.copyjuro.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
