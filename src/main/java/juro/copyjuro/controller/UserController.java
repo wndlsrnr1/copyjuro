@@ -1,15 +1,15 @@
 package juro.copyjuro.controller;
 
 import juro.copyjuro.config.LoginUser;
-import juro.copyjuro.controller.model.UserLoginRequest;
-import juro.copyjuro.controller.model.UserRegisterRequest;
-import juro.copyjuro.controller.model.UserResponse;
+import juro.copyjuro.controller.model.user.UserLoginRequest;
+import juro.copyjuro.controller.model.user.UserRegisterRequest;
+import juro.copyjuro.controller.model.user.UserResponse;
 import juro.copyjuro.dto.user.UserDto;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import juro.copyjuro.dto.common.ApiResponse;
+import juro.copyjuro.controller.model.common.ApiResponse;
 import juro.copyjuro.service.UserService;
 import lombok.RequiredArgsConstructor;
 

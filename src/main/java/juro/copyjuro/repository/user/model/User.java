@@ -1,4 +1,4 @@
-package juro.copyjuro.repository.model;
+package juro.copyjuro.repository.user.model;
 
 import jakarta.persistence.*;
 import juro.copyjuro.dto.user.UserRole;

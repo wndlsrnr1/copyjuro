@@ -1,8 +1,8 @@
 package juro.copyjuro.config;
 
 import juro.copyjuro.config.model.ServiceUser;
-import juro.copyjuro.repository.UserRepository;
-import juro.copyjuro.repository.model.User;
+import juro.copyjuro.repository.user.UserRepository;
+import juro.copyjuro.repository.user.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetailsService;
