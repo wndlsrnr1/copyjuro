@@ -15,6 +15,7 @@ import juro.copyjuro.repository.product.model.ProductStatus;
 import juro.copyjuro.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public ProductDto createProduct(ProductCreateRequestDto requestDto) {
         if (!userRepository.existsById(requestDto.getUserId())) {
             throw new ClientException(ErrorCode.BAD_REQUEST,
@@ -41,6 +43,7 @@ public class ProductService {
         return ProductDto.of(savedProduct);
     }
 
+    @Transactional(readOnly = true)
     public ProductDto getProduct(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(
@@ -51,7 +54,7 @@ public class ProductService {
     }
 
 
-
+    @Transactional(readOnly = true)
     public PageableDto<ProductDto> searchProducts(ProductSearchRequestDto requestDto) {
         ProductSearchCriteria criteria = requestDto.toCriteria();
 
