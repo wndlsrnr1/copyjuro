@@ -16,6 +16,7 @@ import juro.copyjuro.dto.user.UserDto;
 import juro.copyjuro.exception.ClientException;
 import juro.copyjuro.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
+    @Transactional(readOnly = true)
     public String login(LoginRequestDto dto) {
         User user = userRepository.findByUsername(dto.getUsername())
                 .orElseThrow(() -> new ClientException(ErrorCode.BAD_REQUEST, "credential is not correct=%s".formatted(dto)));
@@ -36,6 +38,7 @@ public class UserService {
         return jwtUtil.generateToken(dto.getUsername());
     }
 
+    @Transactional(readOnly = true)
     public UserDto getUser(Long id) {
         User user = userRepository.findUserById(id)
                 .orElseThrow(
@@ -43,6 +46,7 @@ public class UserService {
         return UserDto.of(user);
     }
 
+    @Transactional
     public UserDto register(UserRegisterRequestDto dto) {
         validatePassword(dto.getPassword());
         Optional<User> findUser = userRepository.findByUsername(dto.getUsername());
