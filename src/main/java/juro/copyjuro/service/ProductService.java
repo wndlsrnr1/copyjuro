@@ -12,6 +12,7 @@ import juro.copyjuro.repository.product.ProductRepository;
 import juro.copyjuro.repository.product.model.Product;
 import juro.copyjuro.repository.product.model.ProductSearchCriteria;
 import juro.copyjuro.repository.product.model.ProductStatus;
+import juro.copyjuro.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,13 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     public ProductDto createProduct(ProductCreateRequestDto requestDto) {
+        if (!userRepository.existsById(requestDto.getUserId())) {
+            throw new ClientException(ErrorCode.BAD_REQUEST,
+                    "cannot create product because user not found. userId=%s".formatted(requestDto.getUserId()));
+        }
         Product product = Product.builder()
                 .userId(requestDto.getUserId())
                 .name(requestDto.getName())
