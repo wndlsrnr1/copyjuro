@@ -1,7 +1,7 @@
 package juro.copyjuro.repository.user.model;
 
 import jakarta.persistence.*;
-import juro.copyjuro.dto.user.UserRole;
+import juro.copyjuro.repository.user.model.UserRole;
 import juro.copyjuro.repository.converter.EnumListConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

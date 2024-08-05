@@ -2,7 +2,7 @@ package juro.copyjuro.controller;
 
 import static org.assertj.core.api.Assertions.*;
 
-import juro.copyjuro.controller.model.common.PageResponse;
+import juro.copyjuro.controller.common.PageResponse;
 import juro.copyjuro.repository.product.model.Product;
 import juro.copyjuro.repository.product.model.ProductStatus;
 import org.assertj.core.api.Assertions;
@@ -18,10 +18,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.client.RestClient;
 
-import juro.copyjuro.config.DebuggingAuth;
-import juro.copyjuro.controller.model.common.ApiResponse;
-import juro.copyjuro.controller.model.product.ProductCreateRequest;
-import juro.copyjuro.controller.model.product.ProductResponse;
+import juro.copyjuro.config.auth.DebuggingAuth;
+import juro.copyjuro.controller.common.ApiResponse;
+import juro.copyjuro.controller.product.model.ProductCreateRequest;
+import juro.copyjuro.controller.product.model.ProductResponse;
 import juro.copyjuro.repository.product.ProductRepository;
 import juro.copyjuro.repository.user.UserRepository;
 
