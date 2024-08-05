@@ -1,15 +1,16 @@
 package juro.copyjuro.service;
 
-import juro.copyjuro.dto.bookmark.BookmarkDto;
+import juro.copyjuro.service.bookmark.model.BookmarkDto;
 import juro.copyjuro.exception.ClientException;
 import juro.copyjuro.exception.ErrorCode;
 import juro.copyjuro.repository.bookmark.Bookmark;
 import juro.copyjuro.repository.bookmark.BookmarkRepository;
-import org.assertj.core.api.Assertions;
+import juro.copyjuro.service.bookmark.BookmarkService;
+import juro.copyjuro.service.product.ProductValidator;
+import juro.copyjuro.service.user.UserValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;

@@ -1,5 +1,6 @@
 package juro.copyjuro.config;
 
+import juro.copyjuro.config.auth.JwtUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

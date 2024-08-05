@@ -2,7 +2,7 @@ package juro.copyjuro.repository.converter;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import juro.copyjuro.dto.user.UserRole;
+import juro.copyjuro.repository.user.model.UserRole;
 
 import java.util.Arrays;
 import java.util.List;
