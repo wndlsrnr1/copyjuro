@@ -22,14 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final UserRepository userRepository;
+    private final UserValidator userValidator;
 
     @Transactional
     public ProductDto createProduct(ProductCreateRequestDto requestDto) {
-        if (!userRepository.existsById(requestDto.getUserId())) {
-            throw new ClientException(ErrorCode.BAD_REQUEST,
-                    "cannot create product because user not found. userId=%s".formatted(requestDto.getUserId()));
-        }
+        userValidator.validateUserExists(requestDto.getUserId());
         Product product = Product.builder()
                 .userId(requestDto.getUserId())
                 .name(requestDto.getName())
